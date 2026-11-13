@@ -6,9 +6,10 @@
 
 - Current Phase: 8 (implementation slices verified; external-service/device checks remain)
 - Overall Status: In Progress
-- Last Checkpoint: On 2026-11-13, fixed the mobile header overflow: action controls stay in one row, and the navigation opens as a viewport-aligned two-column panel instead of overflowing off-screen. Build and live mobile checks are pending.
+- Last Checkpoint: On 2026-11-14, fixed public-page inline font URLs to resolve from `/build/assets` instead of the site root; automated and live post-deploy verification are pending.
 - Laravel Version: 13.39.0
 
+- [ ] Fix deployed public-page font 404s by rewriting inline Vite font URLs to the build asset directory. (Regression test added; automated test and deployment verification pending.)
 - [x] Improve public-site responsiveness and primary navigation: unify desktop/mobile destinations, expose public shipment tracking to guests, and improve mobile spacing, touch targets, focus states, and active-link feedback. (Found and fixed the CSS cascade that hid the mobile menu; frontend build passed and `PublicExperienceTest` passed.)
 - [x] Align the three header action icons at the far left and improve navigation-label spacing in RTL/LTR. (Grid placement, no-wrap link labels, and responsive collapse point updated; frontend build and focused public experience tests passed.)
 - [x] Restore the original compact navbar behavior: hide desktop links below 1180px, show the hamburger instead, and keep guest-only-hidden tracking navigation behavior. (`npm run build` and `PublicExperienceTest` passed.)

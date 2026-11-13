@@ -6,7 +6,14 @@
 - Project: Delivery Operations & Logistics Platform
 - Framework: Laravel 13
 - Status: In Progress
-- Last Updated: 2026-11-13
+- Last Updated: 2026-11-14
+
+## Production Font Asset URLs — 2026-11-14
+
+- **Issue:** The deployed homepage requested Vite-managed font files from the site root and received HTTP 404 responses.
+- **Cause:** `Vite::fonts()` emits inline CSS with relative font URLs; browsers resolve those URLs against the current page rather than `/build/assets`.
+- **Change:** Rewrote the generated relative font URLs to the Laravel build asset URL in the public layout. Added a feature regression test for absolute build-directory font URLs.
+- **Verification:** Automated test and frontend rebuild are pending because the PowerShell command runner is unavailable. The live page was inspected: font files under `/build/assets/` return HTTP 200, while their duplicated root-relative requests return HTTP 404. Geolocation permission denial is browser/user-controlled and is not a site asset failure.
 
 ## Responsive Public Navigation — 2026-11-13
 

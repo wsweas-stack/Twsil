@@ -16,6 +16,15 @@ class PublicExperienceTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_inline_font_styles_resolve_assets_from_the_vite_build_directory(): void
+    {
+        $content = $this->get(route('home'))->assertOk()->getContent();
+
+        $this->assertStringContainsString('url("' . asset('build/assets') . '/', $content);
+        $this->assertStringNotContainsString('url("./', $content);
+        $this->assertStringNotContainsString('url(./', $content);
+    }
+
     public function test_homepage_uses_real_shipment_counts_and_only_approved_reviews(): void
     {
         $shipment = Shipment::factory()->delivered()->create(['receiver_city' => 'Riyadh']);

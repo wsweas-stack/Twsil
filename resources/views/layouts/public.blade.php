@@ -5,7 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name', 'Tawsili'))</title>
-    {{ \Illuminate\Support\Facades\Vite::fonts() }}
+    @php
+        $fontAssets = (string) \Illuminate\Support\Facades\Vite::fonts();
+        $fontAssetBase = 'url("' . asset('build/assets') . '/';
+        $fontAssets = str_replace(
+            ['url("./assets/', 'url("./', 'url(./assets/', 'url(./'],
+            [$fontAssetBase, $fontAssetBase, $fontAssetBase, $fontAssetBase],
+            $fontAssets,
+        );
+    @endphp
+    {!! $fontAssets !!}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
     @vite(['resources/css/app.css', 'resources/css/landing.css', 'resources/js/app.js', 'resources/js/landing.js'])
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
