@@ -1,0 +1,481 @@
+/* ==========================================================================
+   Tousili AI Assistant — Premium Redesign
+   Features: Floating pulse launcher, modern glassmorphism chat panel,
+   typing indicator, smooth message bubbles, suggestion chips, accessible focus.
+   ========================================================================== */
+
+.ai-assistant {
+    position: fixed;
+    z-index: 9999;
+    inset-inline-end: 24px;
+    bottom: 24px;
+    color: #101D27;
+    font-family: 'Noto Sans Arabic', 'Noto Sans', sans-serif;
+}
+
+.ai-assistant button,
+.ai-assistant textarea {
+    font: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   1. Floating Launcher Button
+   -------------------------------------------------------------------------- */
+.ai-assistant-launch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 999px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #D71920 0%, #A80F18 100%);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 28px rgba(215, 25, 32, 0.38), 0 2px 8px rgba(16, 29, 39, 0.12);
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.22s ease,
+                background 0.22s ease;
+    animation: launcherPulse 3.5s ease-in-out infinite;
+    position: relative;
+}
+
+@keyframes launcherPulse {
+    0%, 100% {
+        box-shadow: 0 10px 28px rgba(215, 25, 32, 0.38), 0 2px 8px rgba(16, 29, 39, 0.12);
+    }
+    50% {
+        box-shadow: 0 14px 38px rgba(215, 25, 32, 0.55), 0 4px 14px rgba(16, 29, 39, 0.18);
+    }
+}
+
+.ai-assistant-launch:hover {
+    transform: translateY(-2px) scale(1.02);
+    background: linear-gradient(135deg, #bd151c 0%, #87121a 100%);
+    box-shadow: 0 14px 36px rgba(215, 25, 32, 0.48);
+}
+
+.ai-assistant-launch:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.ai-assistant-launch-mark {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: inline-grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: -0.05em;
+}
+
+.ai-assistant-launch-text {
+    letter-spacing: -0.01em;
+}
+
+/* --------------------------------------------------------------------------
+   2. Modern Chat Window Panel
+   -------------------------------------------------------------------------- */
+.ai-assistant-panel {
+    position: absolute;
+    inset-inline-end: 0;
+    bottom: 66px;
+    display: flex;
+    flex-direction: column;
+    width: min(390px, calc(100vw - 32px));
+    height: min(580px, calc(100dvh - 100px));
+    min-height: 420px;
+    overflow: hidden;
+    border: 1px solid rgba(229, 231, 235, 0.9);
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 24px 64px -12px rgba(16, 29, 39, 0.25),
+                0 6px 20px rgba(16, 29, 39, 0.08);
+    transform-origin: bottom right;
+    animation: panelSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+[dir="rtl"] .ai-assistant-panel {
+    transform-origin: bottom left;
+}
+
+@keyframes panelSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(16px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.ai-assistant-panel[hidden] {
+    display: none !important;
+}
+
+/* Header */
+.ai-assistant-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 20px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #101D27 0%, #1c2e3d 100%);
+    border-bottom: 2px solid #D71920;
+}
+
+.ai-assistant-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ai-assistant-brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #D71920;
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 15px;
+    box-shadow: 0 4px 10px rgba(215, 25, 32, 0.35);
+}
+
+.ai-assistant-brand-copy {
+    display: flex;
+    flex-direction: column;
+}
+
+.ai-assistant-brand-copy strong {
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #ffffff;
+}
+
+.ai-assistant-brand-copy span {
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.3;
+}
+
+.ai-assistant-tools {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ai-assistant-close,
+.ai-assistant-minimize {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    border: none;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 20px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: background 0.16s ease, color 0.16s ease;
+}
+
+.ai-assistant-close:hover,
+.ai-assistant-minimize:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   3. Message Stream
+   -------------------------------------------------------------------------- */
+.ai-assistant-messages {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    padding: 18px;
+    background: #F8FAFC;
+    scroll-behavior: smooth;
+}
+
+.ai-assistant-message {
+    max-width: 86%;
+    margin: 0;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    animation: messageFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes messageFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.assistant-message {
+    align-self: flex-start;
+    color: #1E293B;
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 6px rgba(16, 29, 39, 0.04);
+}
+
+[dir="rtl"] .assistant-message {
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 4px;
+}
+
+.user-message {
+    align-self: flex-end;
+    color: #ffffff;
+    background: linear-gradient(135deg, #D71920 0%, #B8141B 100%);
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 4px 12px rgba(215, 25, 32, 0.22);
+}
+
+[dir="rtl"] .user-message {
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 4px;
+}
+
+/* Typing indicator for pending message */
+.ai-assistant-message[data-pending="true"] {
+    position: relative;
+    color: #64748B;
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    font-style: italic;
+    animation: typingPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes typingPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   4. Suggestion Pills
+   -------------------------------------------------------------------------- */
+.ai-assistant-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 14px 12px;
+    background: #F8FAFC;
+    border-top: 1px solid #F1F5F9;
+}
+
+.ai-assistant-suggestion {
+    min-height: 32px;
+    padding: 6px 12px;
+    border: 1px solid #E2E8F0;
+    border-radius: 999px;
+    color: #334155;
+    background: #ffffff;
+    font-size: 12px !important;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(16, 29, 39, 0.03);
+    transition: all 0.18s ease;
+    text-align: start;
+}
+
+.ai-assistant-suggestion:hover {
+    border-color: #D71920;
+    color: #D71920;
+    background: #FFF5F5;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(215, 25, 32, 0.1);
+}
+
+/* --------------------------------------------------------------------------
+   5. Input Form & Send Action
+   -------------------------------------------------------------------------- */
+.ai-assistant-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 12px 14px;
+    background: #ffffff;
+    border-top: 1px solid #E2E8F0;
+}
+
+.ai-assistant-form textarea {
+    min-width: 0;
+    min-height: 44px;
+    max-height: 120px;
+    resize: none;
+    padding: 10px 14px;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 12px;
+    color: #101D27;
+    background: #F8FAFC;
+    font-size: 13.5px;
+    line-height: 1.5;
+    transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.ai-assistant-form textarea:focus {
+    border-color: #D71920;
+    background: #ffffff;
+    outline: none;
+    box-shadow: 0 0 0 3.5px rgba(215, 25, 32, 0.12);
+}
+
+.ai-assistant-send {
+    align-self: end;
+    min-height: 44px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 12px;
+    color: #ffffff;
+    background: #D71920;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(215, 25, 32, 0.25);
+    transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.ai-assistant-send:hover {
+    background: #A80F18;
+    transform: translateY(-1px);
+}
+
+.ai-assistant-send:disabled,
+.ai-assistant-suggestion:disabled {
+    cursor: wait;
+    opacity: 0.6;
+    transform: none !important;
+}
+
+.ai-assistant-error {
+    grid-column: 1 / -1;
+    margin: 4px 0 0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    color: #991B1B;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.ai-assistant-error[hidden] {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   6. Full-page mode (e.g. /assistant)
+   -------------------------------------------------------------------------- */
+.ai-assistant-page-content {
+    width: min(840px, calc(100% - 40px));
+    margin: 24px auto 56px;
+}
+
+.ai-assistant-page-content > .ai-assistant-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    margin-bottom: 16px;
+    color: #D71920;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.16s ease;
+}
+
+.ai-assistant-page-content > .ai-assistant-back:hover {
+    color: #A80F18;
+}
+
+.ai-assistant-page {
+    position: static;
+    width: 100%;
+}
+
+.ai-assistant-page .ai-assistant-panel {
+    position: static;
+    width: 100%;
+    height: min(640px, calc(100dvh - 220px));
+    min-height: 440px;
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(16, 29, 39, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   7. Responsive for Mobile
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .ai-assistant {
+        inset-inline-end: 14px;
+        bottom: max(14px, env(safe-area-inset-bottom));
+    }
+
+    .ai-assistant-launch {
+        min-height: 48px;
+        padding: 8px 18px;
+        font-size: 13px;
+    }
+
+    .ai-assistant-panel {
+        width: calc(100vw - 28px);
+        height: min(540px, calc(100dvh - 84px));
+        bottom: 58px;
+        border-radius: 16px;
+    }
+
+    .ai-assistant-page-content {
+        width: calc(100% - 24px);
+    }
+
+    .ai-assistant-page .ai-assistant-panel {
+        height: min(600px, calc(100dvh - 200px));
+        min-height: 380px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   8. Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .ai-assistant-launch {
+        animation: none;
+    }
+
+    .ai-assistant-panel {
+        animation: none;
+    }
+
+    .ai-assistant-message {
+        animation: none;
+    }
+
+    .ai-assistant-message[data-pending="true"] {
+        animation: none;
+    }
+}

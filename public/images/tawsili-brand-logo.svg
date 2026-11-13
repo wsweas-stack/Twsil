@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 50" fill="none">
+  <!-- 3D Isometric Red Cube Mark -->
+  <g transform="translate(136, 6)">
+    <!-- Top Face -->
+    <path d="M18 2 L33 10 L18 18 L3 10 Z" fill="#D71920" />
+    <!-- Tape / Ribbon on Top -->
+    <path d="M15 4 L21 7 L15 10 L9 7 Z" fill="#FFFFFF" opacity="0.35" />
+    <path d="M18 2 L21 3.6 L18 5.2 L15 3.6 Z" fill="#FFFFFF" opacity="0.5" />
+    <!-- Left Face -->
+    <path d="M3 10 L18 18 L18 34 L3 26 Z" fill="#B8141B" />
+    <!-- Tape / Ribbon on Left -->
+    <path d="M8 12.7 L13 15.3 L13 31.3 L8 28.7 Z" fill="#FFFFFF" opacity="0.2" />
+    <!-- Right Face -->
+    <path d="M18 18 L33 10 L33 26 L18 34 Z" fill="#8C0D13" />
+    <!-- Tape / Ribbon on Right -->
+    <path d="M23 15.3 L28 12.7 L28 28.7 L23 31.3 Z" fill="#FFFFFF" opacity="0.25" />
+  </g>
+  <!-- Brand Text: توصيلي -->
+  <text x="126" y="32" font-family="'Noto Sans Arabic', 'Cairo', sans-serif" font-size="24" font-weight="800" fill="#1E242B" text-anchor="end">توصيلي</text>
+</svg>

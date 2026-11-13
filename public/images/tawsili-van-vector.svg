@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 540" fill="none">
+  <defs>
+    <!-- Realistic Ground Shadow -->
+    <radialGradient id="van-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1e242b" stop-opacity="0.45"/>
+      <stop offset="60%" stop-color="#1e242b" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#1e242b" stop-opacity="0"/>
+    </radialGradient>
+    <!-- White Cab Gradient -->
+    <linearGradient id="cab-grad" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <!-- Tawsili Red Cargo Gradient -->
+    <linearGradient id="cargo-red" x1="0%" y1="0%" x2="100%" y2="70%">
+      <stop offset="0%" stop-color="#D71920"/>
+      <stop offset="70%" stop-color="#BD151C"/>
+      <stop offset="100%" stop-color="#991016"/>
+    </linearGradient>
+    <!-- Windshield Tint -->
+    <linearGradient id="windshield" x1="0%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#2D3748"/>
+      <stop offset="60%" stop-color="#1A202C"/>
+      <stop offset="100%" stop-color="#4A5568"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Soft Shadow -->
+  <ellipse cx="460" cy="460" rx="410" ry="34" fill="url(#van-shadow)"/>
+  <ellipse cx="450" cy="455" rx="360" ry="18" fill="#111620" opacity="0.3"/>
+
+  <!-- Van Main Cargo Body (Red) -->
+  <path d="M120 160 C120 148 130 138 144 138 L480 138 L480 400 L160 400 C138 400 120 382 120 360 Z" fill="url(#cargo-red)"/>
+  
+  <!-- Rear Roof Curve -->
+  <path d="M120 160 C120 145 132 138 148 138 L480 138 L480 152 L145 152 C132 152 124 156 120 160 Z" fill="#FFFFFF" opacity="0.25"/>
+
+  <!-- Tawsili Logo on the Cargo Side -->
+  <g transform="translate(230, 210) scale(1.4)">
+    <!-- 3D Red/White Box Icon -->
+    <g transform="translate(68, 0)">
+      <path d="M16 2 L29 9 L16 16 L3 9 Z" fill="#FFFFFF"/>
+      <path d="M3 9 L16 16 L16 30 L3 23 Z" fill="#F1F5F9" opacity="0.9"/>
+      <path d="M16 16 L29 9 L29 23 L16 30 Z" fill="#E2E8F0"/>
+      <path d="M13 3.5 L19 6.8 L13 10 L7 6.8 Z" fill="#D71920"/>
+    </g>
+    <!-- Arabic Brand Wordmark -->
+    <text x="60" y="27" font-family="'Noto Sans Arabic', 'Cairo', sans-serif" font-size="22" font-weight="800" fill="#FFFFFF" text-anchor="end">توصيلي</text>
+  </g>
+
+  <!-- Front Cab Body (White with swooping transition) -->
+  <path d="M480 138 L540 142 L660 210 L760 270 C790 290 810 320 815 355 L815 400 L480 400 Z" fill="url(#cab-grad)"/>
+
+  <!-- Dynamic Red Swoop on Cab Side -->
+  <path d="M480 260 C530 250 580 270 630 330 L630 400 L480 400 Z" fill="url(#cargo-red)"/>
+
+  <!-- Windshield -->
+  <path d="M545 152 L655 214 L650 280 L520 275 C515 230 525 180 545 152 Z" fill="url(#windshield)"/>
+  <!-- Windshield Specular Reflection -->
+  <path d="M555 160 L620 216 L590 275 L550 270 Z" fill="#FFFFFF" opacity="0.15"/>
+
+  <!-- Side Driver Window -->
+  <path d="M515 285 L645 290 L635 345 L515 345 Z" fill="#2D3748"/>
+  <path d="M515 285 L590 290 L575 345 L515 345 Z" fill="#FFFFFF" opacity="0.1"/>
+
+  <!-- Side Mirror -->
+  <rect x="645" y="295" width="22" height="38" rx="6" fill="#1A202C"/>
+  <rect x="648" y="298" width="16" height="32" rx="4" fill="#4A5568"/>
+
+  <!-- Headlight Cluster (Modern LED design) -->
+  <path d="M760 330 L805 345 C812 355 808 368 795 372 L750 365 Z" fill="#E2E8F0"/>
+  <path d="M765 338 L798 350 C802 358 800 364 792 366 L758 362 Z" fill="#38BDF8" opacity="0.8"/>
+  <circle cx="780" cy="352" r="5" fill="#FFFFFF"/>
+
+  <!-- Front Grille & Bumper (Aggressive Modern Truck styling) -->
+  <path d="M740 375 L812 380 L810 415 L735 415 Z" fill="#1E293B"/>
+  <line x1="745" y1="388" x2="805" y2="392" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+  <line x1="745" y1="398" x2="802" y2="402" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- License Plate -->
+  <rect x="760" y="405" width="46" height="18" rx="3" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.5"/>
+  <text x="783" y="418" font-family="monospace" font-size="9" font-weight="700" fill="#1E293B" text-anchor="middle">KSA 2026</text>
+
+  <!-- Front Wheel Arch & Tire -->
+  <circle cx="680" cy="410" r="58" fill="#1E242B"/>
+  <circle cx="680" cy="410" r="48" fill="#0F172A"/>
+  <!-- Front Alloy Rim -->
+  <circle cx="680" cy="410" r="32" fill="#94A3B8"/>
+  <circle cx="680" cy="410" r="26" fill="#475569"/>
+  <circle cx="680" cy="410" r="10" fill="#E2E8F0"/>
+  <!-- Rim Spokes -->
+  <line x1="680" y1="386" x2="680" y2="434" stroke="#CBD5E1" stroke-width="5" stroke-linecap="round"/>
+  <line x1="656" y1="410" x2="704" y2="410" stroke="#CBD5E1" stroke-width="5" stroke-linecap="round"/>
+  <line x1="663" y1="393" x2="697" y2="427" stroke="#CBD5E1" stroke-width="4" stroke-linecap="round"/>
+  <line x1="663" y1="427" x2="697" y2="393" stroke="#CBD5E1" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Rear Wheel Arch & Tire -->
+  <circle cx="230" cy="410" r="58" fill="#1E242B"/>
+  <circle cx="230" cy="410" r="48" fill="#0F172A"/>
+  <!-- Rear Alloy Rim -->
+  <circle cx="230" cy="410" r="32" fill="#94A3B8"/>
+  <circle cx="230" cy="410" r="26" fill="#475569"/>
+  <circle cx="230" cy="410" r="10" fill="#E2E8F0"/>
+  <!-- Rim Spokes -->
+  <line x1="230" y1="386" x2="230" y2="434" stroke="#CBD5E1" stroke-width="5" stroke-linecap="round"/>
+  <line x1="206" y1="410" x2="254" y2="410" stroke="#CBD5E1" stroke-width="5" stroke-linecap="round"/>
+  <line x1="213" y1="393" x2="247" y2="427" stroke="#CBD5E1" stroke-width="4" stroke-linecap="round"/>
+  <line x1="213" y1="427" x2="247" y2="393" stroke="#CBD5E1" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Side Door Seam Lines & Handles -->
+  <line x1="480" y1="138" x2="480" y2="400" stroke="#991016" stroke-width="2"/>
+  <line x1="510" y1="280" x2="510" y2="400" stroke="#CBD5E1" stroke-width="2"/>
+  <rect x="525" y="350" width="24" height="8" rx="3" fill="#1E293B"/>
+  <rect x="445" y="270" width="22" height="7" rx="3" fill="#991016"/>
+</svg>
