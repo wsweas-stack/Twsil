@@ -17,7 +17,10 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    // Cloud hosting platforms (e.g. EthioDeploy) may expose the MySQL connection
+    // only through a URL (DB_URL or DATABASE_URL). When DB_CONNECTION is not set
+    // but a URL is present, default to MySQL instead of the local sqlite file.
+    'default' => env('DB_CONNECTION') ?: ((env('DB_URL') || env('DATABASE_URL')) ? 'mysql' : 'sqlite'),
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +49,8 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('DB_URL'),
+            'url' => env('DB_URL', env('DATABASE_URL')),
+            // Accept both DB_URL and DATABASE_URL (mysql://user:pass@host:port/db)
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'laravel'),
@@ -66,7 +70,8 @@ return [
 
         'mariadb' => [
             'driver' => 'mariadb',
-            'url' => env('DB_URL'),
+            // Accept both DB_URL and DATABASE_URL (mysql://user:pass@host:port/db)
+            'url' => env('DB_URL') ?: env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'laravel'),
