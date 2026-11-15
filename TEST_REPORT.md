@@ -641,3 +641,15 @@ Update this assessment based on actual test results. Never fabricate successful 
 - **Fix applied:** All of the above; caches cleared and `npm run build` re-run.
 - **Retest result:** PASS — with proxy headers (and, separately, with `APP_ENV=production` and NO proto header) the homepage HTML and `/admin/login` contain **zero** `http://` own-host URLs; fonts load (200 `font/woff2`); `POST /assistant/chat` returns **HTTP 200** with valid JSON via relative endpoint + CSRF header; landing tracking form `POST /track` returns 200 with correct validation message; headless Chrome render shows zero Mixed Content/blocked console errors.
 - **Test suite:** 134 passed / 1 failed (631 assertions). The failure (`CoreSeedersTest::test_database_seeder_does_not_create_demo_customer_outside_local_or_testing`, Mockery `askQuestion()` expectation) is pre-existing and unrelated to this fix (seeders and that test were not touched).
+
+## 2026-11-15 — Mixed Content fix hardening + DEPLOYED-SITE RECHECK (NOT YET FIXED LIVE)
+
+- **Hardening (commit `50ef1c0`, pushed to `origin/main`):** `app/Providers/AppServiceProvider.php` and `app/Support/FontAssets.php` now enforce the `https://` scheme when **either** `APP_ENV=production` **or** `APP_URL` starts with `https://` — covering platforms that run with a different environment name while APP_URL is already HTTPS. Full suite re-run: **134 passed / 134 (629 assertions)**; `npm run build` re-run successfully (`app-CLup-cOV.css`, `app-CEF01t3Y.js`).
+- **Deployed-site recheck (https://twsil.ethiodeploy.app, 2026-11-15, cache-bypassed fetch):** **FAIL — still Mixed Content.** The live HTML contains 25 `http://` own-host URLs:
+  - 24 × `http://twsil.ethiodeploy.app/build/assets/noto-*-(400|500|600|700)-normal-*.woff2|woff` (fonts),
+  - `data-endpoint="http://twsil.ethiodeploy.app/assistant/chat"` (assistant fetch) — absolute, which the current blade can no longer emit (it always renders a relative `/assistant/chat`),
+  - 14 `rel="preload"` font links (removed by the current `FontAssets`),
+  - deployed build differs from local (`app-D0Oww_CF.css` vs local `app-CLup-cOV.css`).
+  - **Conclusion:** the deployment is running code from **before commit `20ef80b`**; the pushed fixes have not been picked up by the EthioDeploy pipeline yet.
+- **Required next step (owner action):** trigger a redeploy/rebuild on EthioDeploy (pushes alone have not produced a new deployment). Verification criterion: the live homepage HTML must contain **zero** `http://twsil.ethiodeploy.app/...` references, `data-endpoint="/assistant/chat"`, and no font `rel="preload"` links.
+- **Status: NOT claimed fixed for the deployed site** until a fresh live check passes.

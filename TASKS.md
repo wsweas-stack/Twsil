@@ -220,6 +220,8 @@
 - [ ] Produce final delivery report.
 - [x] Fix production Mixed Content errors (2026-11-15): trustProxies header set + production `URL::forceScheme('https')`, relative assistant endpoint, font preloads removed, Filament favicon made root-relative. Verified locally with simulated proxy headers and headless Chrome; suite 134/135 (remaining failure is pre-existing `CoreSeedersTest` Mockery issue).
 - [x] Fix the last failing `CoreSeedersTest` (2026-11-15): production `db:seed` confirmation prompt now bypassed with `--force`; full automated suite 134/134 green. Changes pushed to `origin/main` so the EthioDeploy pipeline deploys the HTTPS/mixed-content fixes to `https://twsil.ethiodeploy.app`.
+- [x] Harden HTTPS enforcement (2026-11-15, commit `50ef1c0`): `AppServiceProvider` and `FontAssets` now also force `https://` when `APP_URL` starts with `https://` (not only `APP_ENV=production`); suite 134/134, build re-run.
+- [ ] **Deployed-site verification PENDING (2026-11-15):** https://twsil.ethiodeploy.app still serves pre-fix code (25 `http://` own-host URLs incl. fonts + absolute `/assistant/chat`, 14 font preloads, old build `app-D0Oww_CF.css`). A redeploy/rebuild must be triggered on EthioDeploy, then the live HTML must be rechecked: zero `http://twsil.ethiodeploy.app/...`, `data-endpoint="/assistant/chat"`, no font preloads.
 
 ## Rules for Updating This File
 
