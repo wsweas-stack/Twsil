@@ -42,8 +42,11 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->brandLogo(fn () => asset('images/' . (app()->getLocale() === 'ar' ? 'tawsili-brand-logo.svg' : 'tawsili-brand-logo-en.svg')))
             ->brandLogoHeight('2.5rem')
-            ->favicon(asset('favicon.ico'))
-            ->renderHook(PanelsRenderHook::HEAD_END, fn () => \Illuminate\Support\Facades\Vite::fonts())
+            // Root-relative so the scheme/host come from the page URL; asset() here is
+            // evaluated when the panel boots, before TrustProxies runs, which can
+            // emit http:// behind the TLS-terminating reverse proxy.
+            ->favicon('/favicon.ico')
+            ->renderHook(PanelsRenderHook::HEAD_END, fn () => \App\Support\FontAssets::inlineCss())
             ->renderHook(PanelsRenderHook::HEAD_END, fn () => view('components.ai-assistant-assets'))
             ->renderHook(PanelsRenderHook::BODY_END, fn () => view('components.ai-assistant'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')

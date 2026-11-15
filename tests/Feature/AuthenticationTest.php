@@ -37,11 +37,11 @@ class AuthenticationTest extends TestCase
             ->post(route('register'), $this->registrationData([
                 'password_confirmation' => 'different-password',
             ]))
-            ->assertRedirect(route('register'))
-            ->assertSessionHasErrors('password_confirmation');
+            ->assertRedirect(route('register'));
 
         $this->get(route('register'))
             ->assertOk()
+            ->assertViewHas('errors', fn ($errors) => $errors->has('password_confirmation'))
             ->assertSee('id="password-confirmation-error"', false);
     }
 
@@ -180,11 +180,11 @@ class AuthenticationTest extends TestCase
     {
         $this->from(route('home'))
             ->post(route('language.update'), ['locale' => 'fr'])
-            ->assertRedirect(route('home'))
-            ->assertSessionHasErrors('locale');
+            ->assertRedirect(route('home'));
 
         $this->get(route('home'))
             ->assertOk()
+            ->assertViewHas('errors', fn ($errors) => $errors->has('locale'))
             ->assertSee('id="locale-error"', false);
     }
 

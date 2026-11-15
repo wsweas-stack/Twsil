@@ -8,7 +8,7 @@
     data-full-page="{{ $fullPage ? 'true' : 'false' }}"
     aria-label="{{ __('app.assistant.title') }}"
     data-csrf-token="{{ csrf_token() }}"
-    data-endpoint="{{ route('assistant.chat') }}"
+    data-endpoint="{{ route('assistant.chat', [], false) }}"
     data-loading-message="{{ __('app.assistant.loading') }}"
     data-error-message="{{ __('app.assistant.error') }}"
     data-unavailable-message="{{ __('app.assistant.unavailable') }}"

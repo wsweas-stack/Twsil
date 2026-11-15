@@ -25,6 +25,16 @@ class PublicExperienceTest extends TestCase
         $this->assertStringNotContainsString('url(./', $content);
     }
 
+    public function test_font_styles_are_https_only_in_production_to_avoid_mixed_content(): void
+    {
+        $this->app->detectEnvironment(fn () => 'production');
+
+        $content = $this->get(route('home'))->assertOk()->getContent();
+
+        $this->assertStringContainsString('url("https://', $content);
+        $this->assertStringNotContainsString('url("http://', $content);
+    }
+
     public function test_homepage_uses_real_shipment_counts_and_only_approved_reviews(): void
     {
         $shipment = Shipment::factory()->delivered()->create(['receiver_city' => 'Riyadh']);

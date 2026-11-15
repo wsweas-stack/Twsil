@@ -6,13 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name', 'Tawsili'))</title>
     @php
-        $fontAssets = (string) \Illuminate\Support\Facades\Vite::fonts();
-        $fontAssetBase = 'url("' . asset('build/assets') . '/';
-        $fontAssets = str_replace(
-            ['url("./assets/', 'url("./', 'url(./assets/', 'url(./'],
-            [$fontAssetBase, $fontAssetBase, $fontAssetBase, $fontAssetBase],
-            $fontAssets,
-        );
+        $fontAssets = \App\Support\FontAssets::inlineCss();
     @endphp
     {!! $fontAssets !!}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
@@ -194,6 +188,7 @@
                         <button type="submit" name="locale" value="ar" class="lang-segment {{ app()->getLocale() === 'ar' ? 'active' : '' }}">عربي</button>
                         <button type="submit" name="locale" value="en" class="lang-segment {{ app()->getLocale() === 'en' ? 'active' : '' }}">EN</button>
                     </div>
+                    @error('locale') <p class="field-error" id="locale-error" role="alert">{{ $message }}</p> @enderror
                 </form>
             </div>
         </div>

@@ -218,6 +218,8 @@
 - [ ] Verify the updated public navigation visually at mobile, tablet, desktop, Arabic RTL, and English LTR sizes. (Browser verification is blocked while the local WAMP site refuses connections.)
 - [x] Update setup documentation.
 - [ ] Produce final delivery report.
+- [x] Fix production Mixed Content errors (2026-11-15): trustProxies header set + production `URL::forceScheme('https')`, relative assistant endpoint, font preloads removed, Filament favicon made root-relative. Verified locally with simulated proxy headers and headless Chrome; suite 134/135 (remaining failure is pre-existing `CoreSeedersTest` Mockery issue).
+- [x] Fix the last failing `CoreSeedersTest` (2026-11-15): production `db:seed` confirmation prompt now bypassed with `--force`; full automated suite 134/134 green. Changes pushed to `origin/main` so the EthioDeploy pipeline deploys the HTTPS/mixed-content fixes to `https://twsil.ethiodeploy.app`.
 
 ## Rules for Updating This File
 

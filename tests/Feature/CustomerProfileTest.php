@@ -81,11 +81,11 @@ class CustomerProfileTest extends TestCase
                 'password' => 'new-password-123',
                 'password_confirmation' => 'different-password',
             ])
-            ->assertRedirect(route('account.profile.edit'))
-            ->assertSessionHasErrors('password_confirmation');
+            ->assertRedirect(route('account.profile.edit'));
 
         $this->get(route('account.profile.edit'))
             ->assertOk()
+            ->assertViewHas('errors', fn ($errors) => $errors->has('password_confirmation'))
             ->assertSee('id="password-confirmation-error"', false);
     }
 

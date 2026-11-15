@@ -8,6 +8,15 @@
 - Status: In Progress
 - Last Updated: 2026-11-14
 
+## Production Mixed-Content and Seeder Test — 2026-11-15
+
+- **Issue:** The deployed homepage at `https://twsil.ethiodeploy.app` still emitted `http://twsil.ethiodeploy.app/build/assets/*.woff2` font URLs inside the inlined Vite font CSS. Browsers block these as mixed content, so Arabic/English web fonts failed to load over HTTPS.
+- **Cause:** TLS terminates at the EthioDeploy reverse proxy and `X-Forwarded-Proto` is not honored on every route, so `asset()` produced `http://` URLs; the fix from 2026-11-14 was committed but had not been deployed.
+- **Change:** Trust reverse-proxy `X-Forwarded-*` headers globally, force the `https` scheme in production, serve fonts through `App\Support\FontAssets::inlineCss()` (absolute build-directory URLs, https-only in production, redundant preloads removed), make the Filament favicon root-relative, and use a scheme-relative assistant endpoint.
+- **Test fix:** `CoreSeedersTest` failed because simulating production made `db:seed` ask for interactive confirmation; the test now runs `db:seed --force`. Removed the scratch `ScratchDebugTest`.
+- **Verification:** PASS — full automated suite 134 tests, 629 assertions, 0 failures. PASS — `npm run build`. PASS — live check before push confirmed the deployed page still served `http://` font URLs; verification of the redeployed page is pending after this push.
+- **Deployment:** Changes pushed to `origin/main`; the EthioDeploy pipeline picks up new commits automatically.
+
 ## Production Font Asset URLs — 2026-11-14
 
 - **Issue:** The deployed homepage requested Vite-managed font files from the site root and received HTTP 404 responses.
@@ -623,3 +632,12 @@ Track external configuration requirements:
 - 2026-11-07 Dashboard redesign: sidebar navigation labels now resolve through `app.admin_nav.*` per locale (Arabic verified via tinker: الشحنات / موافقات الفريق / المالية / التقييمات / محفظتي / لوحة التحكم); default Account/FilamentInfo widgets replaced by custom role-aware dashboard widgets; quick-actions blade view rendered successfully in isolation; `app.admin_nav.*`/`app.dashboard.*` keys exist in both `lang/ar/app.php` and `lang/en/app.php`; Vite theme build passed. Not yet verified: authenticated browser rendering of the new stats values and RTL layout at mobile widths.
 
 Update this assessment based on actual test results. Never fabricate successful test results.
+## 2026-11-15 — Production Mixed Content Fix (local verification)
+
+- **Symptom:** Production console (https://twsil.ethiodeploy.app) showed blocked `http://` font requests (`/build/assets/noto-naskh-arabic-700-normal…`), blocked `http://…/assistant/chat` (assistant fetch), and 24 "preloaded using link preload but not used" warnings.
+- **Root cause:** The TLS-terminating reverse proxy may omit `X-Forwarded-Proto`; Laravel then generates `http://` URLs via `asset()`, `route()` and `Vite::fonts()` preloads.
+- **Reproduction (local, 2026-11-15):** `curl` with `X-Forwarded-Host: twsil.ethiodeploy.app` but no proto header produced `http://twsil.ethiodeploy.app/...` for all generated URLs — bug confirmed. With the proto header, `trustProxies` already produced clean `https://` output.
+- **Files changed:** `bootstrap/app.php` (explicit forwarded-header set for `trustProxies`), `app/Providers/AppServiceProvider.php` (`URL::forceScheme('https')` in production), `app/Support/FontAssets.php` (drop redundant font preload links; keep 24 `@font-face` rules), `resources/views/components/ai-assistant.blade.php` (`data-endpoint` now relative `route('assistant.chat', [], false)`), `app/Providers/Filament/AdminPanelProvider.php` (favicon root-relative `/favicon.ico` — `asset()` there was evaluated before `TrustProxies` ran), `.env.example` (documented production values).
+- **Fix applied:** All of the above; caches cleared and `npm run build` re-run.
+- **Retest result:** PASS — with proxy headers (and, separately, with `APP_ENV=production` and NO proto header) the homepage HTML and `/admin/login` contain **zero** `http://` own-host URLs; fonts load (200 `font/woff2`); `POST /assistant/chat` returns **HTTP 200** with valid JSON via relative endpoint + CSRF header; landing tracking form `POST /track` returns 200 with correct validation message; headless Chrome render shows zero Mixed Content/blocked console errors.
+- **Test suite:** 134 passed / 1 failed (631 assertions). The failure (`CoreSeedersTest::test_database_seeder_does_not_create_demo_customer_outside_local_or_testing`, Mockery `askQuestion()` expectation) is pre-existing and unrelated to this fix (seeders and that test were not touched).

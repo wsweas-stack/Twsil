@@ -29,9 +29,12 @@ class CoreSeedersTest extends TestCase
 
     public function test_database_seeder_does_not_create_demo_customer_outside_local_or_testing(): void
     {
-        config(['app.env' => 'production']);
+        // app()->environment() reads the runtime env (Application['env']), not config('app.env').
+        $this->app->detectEnvironment(fn () => 'production');
 
-        $this->seed(DatabaseSeeder::class);
+        // In production the db:seed command asks for confirmation; --force
+        // bypasses the interactive prompt so the seeder runs headlessly.
+        $this->artisan('db:seed', ['--class' => DatabaseSeeder::class, '--force' => true])->assertSuccessful();
 
         $this->assertDatabaseHas('users', ['email' => 'admin@tawsili.test']);
         $this->assertDatabaseMissing('users', ['email' => 'customer@tawsili.test']);

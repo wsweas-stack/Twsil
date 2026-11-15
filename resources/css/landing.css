@@ -1929,6 +1929,12 @@ body.mobile-menu-open .mobile-menu-backdrop {
     margin: 0;
 }
 
+.footer-lang-form .field-error {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #F87171;
+}
+
 .footer-lang-switch {
     display: inline-flex;
     background: #141F2B;
