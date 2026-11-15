@@ -26,11 +26,13 @@ class FontAssets
             $css,
         );
 
-        if (app()->isProduction()) {
+        if (app()->environment('production')
+            || str_starts_with((string) config('app.url'), 'https://')) {
             // Behind the HTTPS reverse proxy, browsers block http:// font
             // requests as mixed content. Trust Proxies already make asset()
             // emit https://; this is a fallback for proxies that omit
-            // X-Forwarded-Proto.
+            // X-Forwarded-Proto. Also covers platforms that run with a
+            // https:// APP_URL outside the production environment.
             $css = str_replace('http://', 'https://', $css);
         }
 
